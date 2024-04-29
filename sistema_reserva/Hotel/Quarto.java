@@ -65,15 +65,17 @@ public class Quarto {
     public void adicionarHospede(Hospede hospede) {
         lock.lock();
         try {
-            if (hospedes.size() < CAPACIDADE_MAXIMA) {
+            if (disponivel && hospedes.size() < CAPACIDADE_MAXIMA) {
                 hospedes.add(hospede);
+            } else if (!disponivel) {
+                System.out.println("Não é possível adicionar um novo hóspede ao quarto " + numero + " pois está passando por limpeza.");
             } else {
                 System.out.println("O quarto está cheio, não é possível adicionar mais hóspedes. Limite de 4 hóspedes por quarto");
             }
         } finally {
             lock.unlock();
         }
-    }
+    }    
 
     public void removerHospede(Hospede hospede) {
         lock.lock();
