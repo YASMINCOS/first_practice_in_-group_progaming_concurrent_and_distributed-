@@ -15,7 +15,7 @@ public class Main {
 
         hotel.getCamareiras().add(new Camareira("Maria", 35, "111222333", 1500));
         hotel.getCamareiras().add(new Camareira("Joana", 40, "444555666", 1600));
-        hotel.getCamareiras().add(new Camareira("Pedro", 28, "777888999", 1400));
+        hotel.getCamareiras().add(new Camareira("Ana", 28, "777888999", 1400));
 
         for (int i = 1; i <= 10; i++) {
             hotel.getQuartos().add(new Quarto(i, "", true));
