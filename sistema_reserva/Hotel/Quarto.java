@@ -82,4 +82,21 @@ public class Quarto {
             lock.unlock();
         }
     }
+
+    public void limparQuarto() {
+        lock.lock();
+        try {
+            if (!disponivel) {
+                System.out.println("Iniciando limpeza do quarto " + numero);
+                Thread.sleep(2000);
+                System.out.println("Quarto " + numero + " limpo.");
+                disponivel = true;
+                chaveNaRecepcao = true;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
 }
