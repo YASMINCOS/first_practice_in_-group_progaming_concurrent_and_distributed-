@@ -1,11 +1,10 @@
 package sistema_reserva.pessoas.funcionarios;
 
-import java.util.List;
+import sistema_reserva.Hotel.Quarto;
 import sistema_reserva.pessoas.Pessoa;
 
 public class Recepcionista extends Pessoa {
     private int salario;
-    private List<Integer> reservas;
 
     public Recepcionista(String nome, int idade, String cpf, int salario) {
         super(nome, idade, cpf);
@@ -20,11 +19,8 @@ public class Recepcionista extends Pessoa {
         this.salario = salario;
     }
 
-    public List<Integer> getReservas() {
-        return reservas;
-    }
-
-    public void setReservas(List<Integer> reservas) {
-        this.reservas = reservas;
+    public void receberChave(Quarto quarto) {
+        quarto.setChaveNaRecepcao(true);
+        System.out.println("Recepcionista " + getNome() + " recebeu a chave do quarto " + quarto.getNumero() + ".");
     }
 }

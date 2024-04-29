@@ -1,4 +1,5 @@
 package sistema_reserva.Hotel;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -67,7 +68,7 @@ public class Quarto {
             if (hospedes.size() < CAPACIDADE_MAXIMA) {
                 hospedes.add(hospede);
             } else {
-                System.out.println("O quarto está cheio, não é possível adicionar mais hóspedes. Limite de 4 hospedes por quarto");
+                System.out.println("O quarto está cheio, não é possível adicionar mais hóspedes. Limite de 4 hóspedes por quarto");
             }
         } finally {
             lock.unlock();
@@ -78,6 +79,8 @@ public class Quarto {
         lock.lock();
         try {
             hospedes.remove(hospede);
+            // Ao remover um hóspede, inicia a limpeza do quarto
+            limparQuarto();
         } finally {
             lock.unlock();
         }
