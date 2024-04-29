@@ -2,7 +2,6 @@ package sistema_reserva;
 
 import sistema_reserva.Hotel.Hotel;
 import sistema_reserva.Hotel.Quarto;
-import sistema_reserva.pessoas.PossivelHospede;
 import sistema_reserva.pessoas.funcionarios.Camareira;
 import sistema_reserva.pessoas.funcionarios.Recepcionista;
 
