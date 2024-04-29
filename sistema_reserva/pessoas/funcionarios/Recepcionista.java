@@ -1,5 +1,6 @@
 package sistema_reserva.pessoas.funcionarios;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.locks.Lock;
@@ -17,9 +18,10 @@ public class Recepcionista extends Pessoa {
     public Recepcionista(String nome, int idade, String cpf, int salario) {
         super(nome, idade, cpf);
         this.salario = salario;
+        this.filaEspera = new LinkedList<>(); 
         this.lock = new ReentrantLock();
     }
-
+    
     public int getSalario() {
         return salario;
     }
