@@ -81,7 +81,6 @@ public class Quarto {
         lock.lock();
         try {
             hospedes.remove(hospede);
-            // Ao remover um hóspede, inicia a limpeza do quarto
             limparQuarto();
         } finally {
             lock.unlock();
