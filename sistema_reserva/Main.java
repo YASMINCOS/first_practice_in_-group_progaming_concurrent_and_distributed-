@@ -20,6 +20,5 @@ public class Main {
             hotel.getQuartos().add(new Quarto(i, "", true));
         }
 
-        hotel.getRecepcionistas().get(1).atenderFilaEspera(hotel.getQuartos());
     }
 }

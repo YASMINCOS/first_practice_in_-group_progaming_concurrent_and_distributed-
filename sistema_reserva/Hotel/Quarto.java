@@ -30,16 +30,8 @@ public class Quarto {
         return numero;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
     public String getTipo() {
         return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public boolean isDisponivel() {
@@ -50,12 +42,12 @@ public class Quarto {
         this.disponivel = disponivel;
     }
 
-    public boolean isChaveNaRecepcao() {
-        return chaveNaRecepcao;
-    }
-
     public void setChaveNaRecepcao(boolean chaveNaRecepcao) {
         this.chaveNaRecepcao = chaveNaRecepcao;
+    }
+
+    public boolean isChaveNaRecepcao() {
+        return chaveNaRecepcao;
     }
 
     public List<Hospede> getHospedes() {
@@ -75,7 +67,7 @@ public class Quarto {
         } finally {
             lock.unlock();
         }
-    }    
+    }
 
     public void removerHospede(Hospede hospede) {
         lock.lock();
@@ -99,6 +91,34 @@ public class Quarto {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void deixarChaveNaRecepcao() {
+        lock.lock();
+        try {
+            if (!disponivel) {
+                System.out.println("Os hóspedes do quarto " + numero + " deixaram a chave na recepção.");
+                chaveNaRecepcao = true;
+            } else {
+                System.out.println("Não há hóspedes no quarto " + numero + " para deixar a chave na recepção.");
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void retirarChaveDaRecepcao() {
+        lock.lock();
+        try {
+            if (disponivel && chaveNaRecepcao) {
+                System.out.println("A chave do quarto " + numero + " foi retirada da recepção.");
+                chaveNaRecepcao = false;
+            } else {
+                System.out.println("A chave do quarto " + numero + " não está disponível na recepção.");
+            }
         } finally {
             lock.unlock();
         }
