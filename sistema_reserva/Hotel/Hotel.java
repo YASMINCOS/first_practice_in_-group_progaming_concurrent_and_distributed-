@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import sistema_reserva.pessoas.Hospede;
 import sistema_reserva.pessoas.PossivelHospede;
 import sistema_reserva.pessoas.funcionarios.Camareira;
 import sistema_reserva.pessoas.funcionarios.Recepcionista;
@@ -17,11 +18,13 @@ public class Hotel {
     private List<Quarto> quartos;
     private Lock lock;
     private Queue<PossivelHospede> filaEspera;
+    private List<Hospede> hospedes;
 
     public Hotel(int numRecepcionistas, int numCamareiras, int numQuartos) {
         recepcionistas = new ArrayList<>();
         camareiras = new ArrayList<>();
         quartos = new ArrayList<>();
+        hospedes = new ArrayList<>();
         lock = new ReentrantLock();
         filaEspera = new LinkedList<>();
     }
