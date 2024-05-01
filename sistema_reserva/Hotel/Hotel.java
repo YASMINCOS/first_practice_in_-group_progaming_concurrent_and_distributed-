@@ -27,18 +27,31 @@ public class Hotel {
         hospedes = new ArrayList<>();
         lock = new ReentrantLock();
         filaEspera = new LinkedList<>();
+        addRecepcionista(numRecepcionistas);
+    }
+
+    void addRecepcionista(int numRecepcionistas){
+
+        String[] names = {"Ana", "Carlos", "Maria", "Joana", "Tais"};
+        Integer[] idades = {40, 20, 25, 27, 21};
+        String[] cpf = {"111-111-111-11", "222-222-222-22", "333-333-333-33", "444-444-444-44", "555-555-555-55"};
+        Integer[] salario = {2000, 1100, 1250, 2100, 1700};
+
+        for (int i = 0; i < numRecepcionistas; i++){
+            this.recepcionistas.add(new Recepcionista(names[i], idades[i], cpf[i], salario[i]));    
+        }
     }
 
     public List<Recepcionista> getRecepcionistas() {
-        return recepcionistas;
+        return this.recepcionistas;
     }
 
     public List<Camareira> getCamareiras() {
-        return camareiras;
+        return this.camareiras;
     }
 
     public List<Quarto> getQuartos() {
-        return quartos;
+        return this.quartos;
     }
 
     public Quarto getQuartoDisponivel() {
