@@ -28,6 +28,7 @@ public class Hotel {
         lock = new ReentrantLock();
         filaEspera = new LinkedList<>();
         addRecepcionista(numRecepcionistas);
+        addCamareiras(numCamareiras);
     }
 
     void addRecepcionista(int numRecepcionistas){
@@ -39,6 +40,18 @@ public class Hotel {
 
         for (int i = 0; i < numRecepcionistas; i++){
             this.recepcionistas.add(new Recepcionista(names[i], idades[i], cpf[i], salario[i]));    
+        }
+    }
+
+    void addCamareiras(int numCamareiras){
+
+        String[] names = {"Dona Maria", "Alceu"};
+        Integer[] idades = {41, 59};
+        String[] cpf = {"121-121-121-12", "232-232-232-23"};
+        Integer[] salario = {2100, 2000};
+
+        for (int i = 0; i < numCamareiras; i++){
+            this.camareiras.add(new Camareira(names[i], idades[i], cpf[i], salario[i]));    
         }
     }
 
