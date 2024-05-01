@@ -3,7 +3,7 @@ package sistema_reserva.pessoas;
 import sistema_reserva.Hotel.Quarto;
 import sistema_reserva.pessoas.funcionarios.Recepcionista;
 
-public class Hospede extends Pessoa {
+public class Hospede extends Pessoa implements Runnable {
     private String endereco;
     private int numeroQuarto;
     private boolean estaNoQuarto;
@@ -55,5 +55,11 @@ public class Hospede extends Pessoa {
         } else {
             System.out.println("O hóspede já está com a chave do quarto.");
         }
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 }

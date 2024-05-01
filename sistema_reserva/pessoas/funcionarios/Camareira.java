@@ -5,7 +5,7 @@ import java.util.List;
 import sistema_reserva.Hotel.Quarto;
 import sistema_reserva.pessoas.Pessoa;
 
-public class Camareira extends Pessoa{
+public class Camareira extends Pessoa implements Runnable{
     private int salario;
     private List<Integer> quartosLimpos;
 
@@ -41,6 +41,12 @@ public class Camareira extends Pessoa{
 
     private void limparQuarto(Quarto quarto) {
         quarto.limparQuarto();
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 }
 

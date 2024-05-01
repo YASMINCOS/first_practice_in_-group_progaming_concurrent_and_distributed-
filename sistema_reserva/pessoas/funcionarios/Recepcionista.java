@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import sistema_reserva.Hotel.Quarto;
 import sistema_reserva.pessoas.Pessoa;
 
-public class Recepcionista extends Pessoa {
+public class Recepcionista extends Pessoa implements Runnable {
     private int salario;
     private Lock lock;
 
@@ -32,5 +32,11 @@ public class Recepcionista extends Pessoa {
         } finally {
             lock.unlock();
         }
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 }
