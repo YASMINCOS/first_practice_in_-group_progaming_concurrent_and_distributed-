@@ -39,8 +39,19 @@ public class Camareira extends Pessoa implements Runnable{
         }
     }
 
-    private void limparQuarto(Quarto quarto) {
-        quarto.limparQuarto();
+    public void limparQuarto(Quarto quarto) {
+        try {
+            if (!quarto.isDisponivel()) {
+                System.out.println("Iniciando limpeza do quarto " + quarto.getNumero());
+                Thread.sleep(2000);
+                System.out.println("Quarto " + quarto.getNumero() + " limpo.");
+                quarto.setDisponivel(true);
+                quarto.setChaveNaRecepcao(true);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+        }
     }
 
     @Override
