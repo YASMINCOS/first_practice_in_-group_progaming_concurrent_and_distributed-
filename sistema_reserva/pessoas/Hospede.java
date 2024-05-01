@@ -51,7 +51,6 @@ public class Hospede extends Pessoa implements Runnable {
     public void retirarChaveDaRecepcao(Quarto quarto, Recepcionista recepcionista) {
         if (!estaNoQuarto) {
             estaNoQuarto = true;
-            recepcionista.receberChave(quarto);
         } else {
             System.out.println("O hóspede já está com a chave do quarto.");
         }
