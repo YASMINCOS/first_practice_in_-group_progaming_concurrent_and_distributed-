@@ -57,17 +57,18 @@ public class Quarto {
     public void adicionarHospede(Hospede hospede) {
         lock.lock();
         try {
-            if (disponivel && hospedes.size() < CAPACIDADE_MAXIMA) {
-                hospedes.add(hospede);
-            } else if (!disponivel) {
+            if (!disponivel) {
                 System.out.println("Não é possível adicionar um novo hóspede ao quarto " + numero + " pois está passando por limpeza.");
-            } else {
+            } else if (hospedes.size() >= CAPACIDADE_MAXIMA) {
                 System.out.println("O quarto está cheio, não é possível adicionar mais hóspedes. Limite de 4 hóspedes por quarto");
+            } else {
+                System.out.println("Hospede adicionado no quarto");
+                hospedes.add(hospede);
             }
         } finally {
             lock.unlock();
         }
-    }
+    }    
 
     public void removerHospede(Hospede hospede) {
         lock.lock();
@@ -91,34 +92,6 @@ public class Quarto {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    public void deixarChaveNaRecepcao() {
-        lock.lock();
-        try {
-            if (!disponivel) {
-                System.out.println("Os hóspedes do quarto " + numero + " deixaram a chave na recepção.");
-                chaveNaRecepcao = true;
-            } else {
-                System.out.println("Não há hóspedes no quarto " + numero + " para deixar a chave na recepção.");
-            }
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    public void retirarChaveDaRecepcao() {
-        lock.lock();
-        try {
-            if (disponivel && chaveNaRecepcao) {
-                System.out.println("A chave do quarto " + numero + " foi retirada da recepção.");
-                chaveNaRecepcao = false;
-            } else {
-                System.out.println("A chave do quarto " + numero + " não está disponível na recepção.");
-            }
         } finally {
             lock.unlock();
         }
