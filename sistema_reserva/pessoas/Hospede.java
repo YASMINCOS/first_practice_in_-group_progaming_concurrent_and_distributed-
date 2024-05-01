@@ -41,7 +41,6 @@ public class Hospede extends Pessoa {
 
     public void deixarChaveNaRecepcao(Quarto quarto, Recepcionista recepcionista) {
         if (estaNoQuarto) {
-            quarto.deixarChaveNaRecepcao();
             estaNoQuarto = false;
             recepcionista.receberChave(quarto);
         } else {
@@ -51,7 +50,6 @@ public class Hospede extends Pessoa {
 
     public void retirarChaveDaRecepcao(Quarto quarto, Recepcionista recepcionista) {
         if (!estaNoQuarto) {
-            quarto.retirarChaveDaRecepcao();
             estaNoQuarto = true;
             recepcionista.receberChave(quarto);
         } else {
