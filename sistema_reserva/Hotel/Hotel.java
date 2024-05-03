@@ -13,10 +13,10 @@ import sistema_reserva.pessoas.funcionarios.Camareira;
 import sistema_reserva.pessoas.funcionarios.Recepcionista;
 
 public class Hotel {
-    private List<Recepcionista> recepcionistas;
+    private static List<Recepcionista> recepcionistas;
     private List<Camareira> camareiras;
     private List<Quarto> quartos;
-    private Lock lock;
+    private static Lock lock;
     private Queue<PossivelHospede> filaEspera;
     private List<Hospede> hospedes;
 
@@ -30,7 +30,6 @@ public class Hotel {
         addRecepcionista(numRecepcionistas);
         addCamareiras(numCamareiras);
     }
-
     void addRecepcionista(int numRecepcionistas){
 
         String[] names = {"Ana", "Carlos", "Maria", "Joana", "Tais"};
@@ -67,12 +66,15 @@ public class Hotel {
         return this.quartos;
     }
 
+    public List<Hospede> getHospede() {
+        return this.hospedes;
+    }
+
     public Quarto getQuartoDisponivel() {
         lock.lock();
         try {
             for (Quarto quarto : quartos) {
                 if (quarto.isDisponivel()) {
-                    quarto.setDisponivel(false);
                     return quarto;
                 }
             }
@@ -88,21 +90,6 @@ public class Hotel {
             quarto.setDisponivel(true);
         } finally {
             lock.unlock();
-        }
-    }
-
-    public void tentarAlugarQuarto(PossivelHospede pessoa, List<Quarto> quartos) {
-        if (haQuartosVagos()) {
-            System.out.println("Pessoa " + pessoa.getNome() + " conseguiu alugar um quarto.");
-            pessoa.resetTentativas(); 
-        } else {
-            if (pessoa.getTentativas() < 2) {
-                adicionarFilaEspera(pessoa);
-                System.out.println("Não há quartos vagos. Pessoa " + pessoa.getNome() + " adicionada à fila de espera.");
-                pessoa.incrementarTentativas(); 
-            } else {
-                pessoa.reclamarEIrEmbora(); 
-            }
         }
     }
 
@@ -146,4 +133,42 @@ public class Hotel {
         }
         return false;
     }
+
+    public static Recepcionista getRecepcionistaDisponivel() {
+        lock.lock();
+        try {
+            for (Recepcionista recepcionista : recepcionistas) {
+                if (!recepcionista.isOcupada()) {
+                    return recepcionista;
+                }
+            }
+            return null;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public PossivelHospede getProximoHospedeNaFila() {
+        lock.lock();
+        try {
+            return filaEspera.poll();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public Quarto getQuartoPorHospede(Hospede hospede) {
+        lock.lock();
+        try {
+            for (Quarto quarto : quartos) {
+                if (quarto.getHospedes() != null && quarto.getHospedes().equals(hospede)) {
+                    return quarto;
+                }
+            }
+            return null;
+        } finally {
+            lock.unlock();
+        }
+    }
+    
 }
