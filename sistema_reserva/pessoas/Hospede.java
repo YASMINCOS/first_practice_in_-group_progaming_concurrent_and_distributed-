@@ -1,28 +1,18 @@
 package sistema_reserva.pessoas;
 
+import sistema_reserva.Hotel.Hotel;
 import sistema_reserva.Hotel.Quarto;
 import sistema_reserva.pessoas.funcionarios.Recepcionista;
 
 public class Hospede extends Pessoa implements Runnable {
-    private String endereco;
     private int numeroQuarto;
     private boolean estaNoQuarto;
 
-    public Hospede(String nome, int idade, String cpf, String endereco, int numeroQuarto) {
+    public Hospede(String nome, int idade, String cpf, int numeroQuarto) {
         super(nome, idade, cpf);
-        this.endereco = endereco;
         this.numeroQuarto = numeroQuarto;
         this.estaNoQuarto = true;
     }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
     public int getNumeroQuarto() {
         return numeroQuarto;
     }
@@ -42,12 +32,12 @@ public class Hospede extends Pessoa implements Runnable {
     public void deixarChaveNaRecepcao(Quarto quarto, Recepcionista recepcionista) {
         if (estaNoQuarto) {
             estaNoQuarto = false;
-            recepcionista.receberChave(quarto);
+            recepcionista.receberChave(quarto, this);
         } else {
             System.out.println("O hóspede já deixou a chave na recepção.");
         }
     }
-
+    
     public void retirarChaveDaRecepcao(Quarto quarto, Recepcionista recepcionista) {
         if (!estaNoQuarto) {
             estaNoQuarto = true;
@@ -58,7 +48,38 @@ public class Hospede extends Pessoa implements Runnable {
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
+        try {
+            Hotel hotel = new Hotel(5, 10, 10); 
+            System.out.println(getNome() + " chegou ao hotel.");
+            
+            Recepcionista recepcionista = hotel.getRecepcionistaDisponivel(); 
+            Quarto quarto = recepcionista.alocarQuartoParaHospede(this);
+    
+            if (quarto == null) {
+                System.out.println(getNome() + " não conseguiu alugar um quarto e deixou uma reclamação.");
+                return;
+            }
+    
+            deixarChaveNaRecepcao(quarto, recepcionista);
+    
+            Thread.sleep(5000); 
+    
+            System.out.println(getNome() + " saiu para passear.");
+    
+            retirarChaveDaRecepcao(quarto, recepcionista);
+            Thread.sleep((long) (5000 + Math.random() * 5000));
+            System.out.println(getNome() + " retornou ao hotel.");
+    
+            quarto = recepcionista.entregarChaveParaHospede(this);
+    
+            deixarChaveNaRecepcao(quarto, recepcionista);
+    
+            Thread.sleep(5000); 
+            System.out.println(getNome() + " deixou o hotel.");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
+    
+
 }
