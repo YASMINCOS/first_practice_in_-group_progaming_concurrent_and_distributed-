@@ -1,3 +1,5 @@
+package sistema_reserva.pessoas.funcionarios;
+
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -51,7 +53,7 @@ public class Recepcionista extends Pessoa implements Runnable {
         Quarto quarto = hotel.getQuartoDisponivel();
         if (quarto != null) {
             for (PossivelHospede possivelHospede : possiveisHospedes) {
-                Hospede hospede = new Hospede(possivelHospede.getNome(), possivelHospede.getIdade(), possivelHospede.getCpf(), possivelHospede.getEndereco(), quarto.getNumero());
+                Hospede hospede = new Hospede(possivelHospede.getNome(), possivelHospede.getIdade(), possivelHospede.getCpf(), quarto.getNumero());
                 quarto.adicionarHospede(hospede);
             }
             System.out.println("Recepcionista " + getNome() + " alocou o quarto " + quarto.getNumero() + " para o(s) hóspede(s).");
