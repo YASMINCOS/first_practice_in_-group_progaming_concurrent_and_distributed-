@@ -1,6 +1,8 @@
 package sistema_reserva.pessoas.funcionarios;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,12 +16,14 @@ public class Recepcionista extends Pessoa implements Runnable {
     private int salario;
     private boolean ocupada;
     private Lock lock;
+    private Random random;
 
     public Recepcionista(String nome, int idade, String cpf, int salario) {
         super(nome, idade, cpf);
         this.salario = salario;
         this.ocupada = false;
         this.lock = new ReentrantLock();
+        this.random = new Random();
     }
     
     public int getSalario() {
@@ -48,12 +52,11 @@ public class Recepcionista extends Pessoa implements Runnable {
         }
     }
 
-    public Quarto alocarQuartoParaHospede(List<PossivelHospede> possiveisHospedes) {
+    public Quarto alocarQuartoParaHospede(List<Hospede> hospedes) {
         Hotel hotel = new Hotel(5, 6, 5);
         Quarto quarto = hotel.getQuartoDisponivel();
         if (quarto != null) {
-            for (PossivelHospede possivelHospede : possiveisHospedes) {
-                Hospede hospede = new Hospede(possivelHospede.getNome(), possivelHospede.getIdade(), possivelHospede.getCpf(), quarto.getNumero());
+            for (Hospede hospede : hospedes) {
                 quarto.adicionarHospede(hospede);
             }
             System.out.println("Recepcionista " + getNome() + " alocou o quarto " + quarto.getNumero() + " para o(s) hóspede(s).");
@@ -61,7 +64,7 @@ public class Recepcionista extends Pessoa implements Runnable {
             System.out.println("Recepcionista " + getNome() + " não encontrou quartos disponíveis para o(s) hóspede(s).");
         }
         return quarto;
-    }
+    }    
     
     public Quarto entregarChaveParaHospede(Hospede hospede) {
         Hotel hotel = new Hotel(5, 3, 6);
@@ -85,10 +88,16 @@ public class Recepcionista extends Pessoa implements Runnable {
                 PossivelHospede possivelHospede = hotel.getProximoHospedeNaFila(); 
                 if (possivelHospede != null) {
                     List<PossivelHospede> possiveisHospedes = possivelHospede.getListEspera();
-                    Quarto quarto = alocarQuartoParaHospede(possiveisHospedes);
+                    List<Hospede> hospedesTransformados = new ArrayList<>();
+                    for (PossivelHospede ph : possiveisHospedes) {
+                        int numeroQuarto = random.nextInt(10) + 1; 
+                        Hospede hospede = new Hospede(ph.getNome(), ph.getIdade(), ph.getCpf(),numeroQuarto);
+                        hospedesTransformados.add(hospede);
+                    }
+                    Quarto quarto = alocarQuartoParaHospede(hospedesTransformados);
                     if (quarto != null) {
-                        for (PossivelHospede ph : possiveisHospedes) {
-                            receberChave(quarto, new Hospede(ph.getNome(), ph.getIdade(), ph.getCpf(),quarto.getNumero())); 
+                        for (Hospede hospede : hospedesTransformados) {
+                            receberChave(quarto, hospede); 
                         }
                     } else {
                         System.out.println("Recepcionista " + getNome() + " não conseguiu alocar um quarto para os hóspedes.");
@@ -101,4 +110,5 @@ public class Recepcionista extends Pessoa implements Runnable {
             e.printStackTrace();
         }
     }
+    
 }
