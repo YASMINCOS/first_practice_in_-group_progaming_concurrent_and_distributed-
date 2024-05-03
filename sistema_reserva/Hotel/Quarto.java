@@ -34,6 +34,10 @@ public class Quarto {
         return tipo;
     }
 
+    public void setHospedes(List<Hospede> hospede) {
+      this.hospedes = hospede;
+    }
+
     public boolean isDisponivel() {
         return disponivel;
     }
@@ -58,9 +62,11 @@ public class Quarto {
         lock.lock();
         try {
             if (!disponivel) {
-                System.out.println("Não é possível adicionar um novo hóspede ao quarto " + numero + " pois está passando por limpeza.");
+                System.out.println("Não é possível adicionar um novo hóspede ao quarto " + numero
+                        + " pois está passando por limpeza.");
             } else if (hospedes.size() >= CAPACIDADE_MAXIMA) {
-                System.out.println("O quarto está cheio, não é possível adicionar mais hóspedes. Limite de 4 hóspedes por quarto");
+                System.out.println(
+                        "O quarto está cheio, não é possível adicionar mais hóspedes. Limite de 4 hóspedes por quarto");
             } else {
                 System.out.println("Hospede adicionado no quarto");
                 hospedes.add(hospede);
@@ -68,6 +74,6 @@ public class Quarto {
         } finally {
             lock.unlock();
         }
-    }    
+    }
 
 }

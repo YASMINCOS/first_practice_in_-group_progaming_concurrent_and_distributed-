@@ -48,38 +48,7 @@ public class Hospede extends Pessoa implements Runnable {
 
     @Override
     public void run() {
-        try {
-            Hotel hotel = new Hotel(5, 10, 10); 
-            System.out.println(getNome() + " chegou ao hotel.");
-            
-            Recepcionista recepcionista = hotel.getRecepcionistaDisponivel(); 
-            Quarto quarto = recepcionista.alocarQuartoParaHospede(this);
-    
-            if (quarto == null) {
-                System.out.println(getNome() + " não conseguiu alugar um quarto e deixou uma reclamação.");
-                return;
-            }
-    
-            deixarChaveNaRecepcao(quarto, recepcionista);
-    
-            Thread.sleep(5000); 
-    
-            System.out.println(getNome() + " saiu para passear.");
-    
-            retirarChaveDaRecepcao(quarto, recepcionista);
-            Thread.sleep((long) (5000 + Math.random() * 5000));
-            System.out.println(getNome() + " retornou ao hotel.");
-    
-            quarto = recepcionista.entregarChaveParaHospede(this);
-    
-            deixarChaveNaRecepcao(quarto, recepcionista);
-    
-            Thread.sleep(5000); 
-            System.out.println(getNome() + " deixou o hotel.");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+     
     }
-    
 
 }

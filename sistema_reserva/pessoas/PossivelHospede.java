@@ -58,4 +58,8 @@ public class PossivelHospede extends Pessoa {
     public void adicionarFilaEspera(PossivelHospede pessoa) {
         filaEspera.add(pessoa);
     }
+
+    public List<PossivelHospede> getListEspera(){
+        return filaEspera;
+    }
 }
