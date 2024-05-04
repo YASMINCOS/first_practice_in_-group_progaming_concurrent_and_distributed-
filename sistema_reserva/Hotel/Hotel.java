@@ -179,7 +179,7 @@ public class Hotel {
         lock.lock();
         try {
             for (Quarto quarto : quartos) {
-                if (quarto.getHospedes() != null && quarto.getHospedes().equals(this.hospede)) {
+                if (quarto.getHospedes() != null && quarto.getHospedes().equals(hospede)) {
                     return quarto;
                 }
             }
