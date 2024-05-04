@@ -19,28 +19,22 @@ public class Main {
 
         for (Camareira camareira : hotel.getCamareiras()) {
             Thread camareiraThread = new Thread(camareira);
+            camareiraThread.start();
             camareiraThreads.add(camareiraThread);
         }
 
         for (Recepcionista recepcionista : hotel.getRecepcionistas()) {
             Thread recepcionistaThread = new Thread(recepcionista);
+            recepcionistaThread.start();
             recepcionistaThreads.add(recepcionistaThread);
         }
 
-        // for (Thread camareiraThread : camareiraThreads) {
-        //     camareiraThread.start();
-        // }
+        for (int i = 0; i < 50; i++) {
+            Hospede hospede = new Hospede("Hóspede " + (i + 1), 30, "000.000.000-00", 0); 
+            Thread hospedeThread = new Thread(hospede);
+            hospedeThread.start();
+            hospedeThreads.add(hospedeThread);
+        }
 
-        // for (Thread recepcionistaThread : recepcionistaThreads) {
-        //     recepcionistaThread.start();
-        // }
-
-        // for (Thread hospedeThread : hospedeThreads) {
-        //     hospedeThread.start();
-        // }
-
-
-        
     }
 }
-

@@ -32,16 +32,15 @@ public class Hotel {
     }
 
     void addRecepcionista(int numRecepcionistas){
-
         String[] names = {"Ana", "Carlos", "Maria", "Joana", "Tais"};
         Integer[] idades = {40, 20, 25, 27, 21};
         String[] cpf = {"111-111-111-11", "222-222-222-22", "333-333-333-33", "444-444-444-44", "555-555-555-55"};
         Integer[] salario = {2000, 1100, 1250, 2100, 1700};
-
-        for (int i = 0; i < numRecepcionistas; i++){
+    
+        for (int i = 0; i < numRecepcionistas && i < names.length; i++){
             Hotel.recepcionistas.add(new Recepcionista(names[i], idades[i], cpf[i], salario[i]));    
         }
-    }
+    }    
 
     void addCamareiras(int numCamareiras){
 
@@ -99,7 +98,6 @@ public class Hotel {
             System.out.println("Pessoa " + pessoa.getNome() + " conseguiu alugar um quarto.");
             pessoa.resetTentativas(); 
 
-            //Lógica para alugar um quarto para uma família
         } else {
             if (pessoa.getTentativas() < 2) {
                 adicionarFilaEspera(pessoa);
