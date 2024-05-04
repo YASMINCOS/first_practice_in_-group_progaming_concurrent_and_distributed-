@@ -8,11 +8,14 @@ import sistema_reserva.pessoas.Pessoa;
 
 public class Camareira extends Pessoa implements Runnable{
     private int salario;
+    private List<Quarto> quartos;
     private List<Integer> quartosLimpos;
 
-    public Camareira(String nome, int idade, String cpf, int salario) {
+    public Camareira(String nome, int idade, String cpf, int salario, List<Quarto> quartos) {
         super(nome, idade, cpf);
         this.salario = salario;
+
+        this.quartos = quartos;
     }
 
     public int getSalario() {
@@ -31,6 +34,7 @@ public class Camareira extends Pessoa implements Runnable{
         this.quartosLimpos = quartosLimpos;
     }
 
+
     public void quartoDisponivelParaLimpeza(Quarto quarto) {
         if (quarto.isChaveNaRecepcao() && quarto.isDisponivel()) {
             System.out.println("Camareira " + getNome() + " está entrando no quarto " + quarto.getNumero() + " para limpeza.");
@@ -40,35 +44,39 @@ public class Camareira extends Pessoa implements Runnable{
         }
     }
 
-    public void limparQuarto(Quarto quarto) {
-        try {
-            if (!quarto.isDisponivel()) {
-                System.out.println("Iniciando limpeza do quarto " + quarto.getNumero());
-                Thread.sleep(2000);
-                System.out.println("Quarto " + quarto.getNumero() + " limpo.");
-                quarto.setDisponivel(true);
-                quarto.setChaveNaRecepcao(true);
+    public Quarto obterProximoQuartoParaLimpeza() {
+        for (Quarto quarto : quartos) {
+            if (quarto.isChaveNaRecepcao() && !quarto.isDisponivel()) {
+                return quarto;
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
         }
+        return null;
+    }
+
+    public void limparQuarto(Quarto quarto) {
+        quarto.setChaveNaRecepcao(false);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            System.out.println("Thread Interropida");
+        }
+        quarto.setChaveNaRecepcao(true);
     }
 
     @Override
     public void run() {
-        try {
-            while (true) {
-                Quarto quarto = null;
-    
-                if (quarto != null) {
-                    quartoDisponivelParaLimpeza(quarto);
-                } else {
-                    Thread.sleep(500);
+        while (true) {
+            // adicionar condição de parada
+            Quarto quarto = obterProximoQuartoParaLimpeza();
+            if (quarto == null) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    System.out.println("Thread Interropida");
                 }
+            } else {
+                limparQuarto(quarto);
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
     
