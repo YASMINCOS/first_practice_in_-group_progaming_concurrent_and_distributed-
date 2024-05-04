@@ -82,14 +82,14 @@ public class Recepcionista extends Pessoa implements Runnable {
     @Override
     public void run() {
         try {
+            Hotel hotel = new Hotel(10, 5, 5);
             while (true) {
                 Thread.sleep(2000); 
                 
-                PossivelHospede possivelHospede = hotel.getProximoHospedeNaFila(); 
+                List<PossivelHospede> possivelHospede = hotel.getListaEspera(); 
                 if (possivelHospede != null) {
-                    List<PossivelHospede> possiveisHospedes = possivelHospede.getListEspera();
                     List<Hospede> hospedesTransformados = new ArrayList<>();
-                    for (PossivelHospede ph : possiveisHospedes) {
+                    for (PossivelHospede ph : possivelHospede) {
                         int numeroQuarto = random.nextInt(10) + 1; 
                         Hospede hospede = new Hospede(ph.getNome(), ph.getIdade(), ph.getCpf(),numeroQuarto);
                         hospedesTransformados.add(hospede);

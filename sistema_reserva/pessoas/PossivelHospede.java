@@ -33,7 +33,7 @@ public class PossivelHospede extends Pessoa {
         System.out.println("Pessoa " + getNome() + " deixou uma reclamação e foi embora.");
     }
 
-    public void tentarAlugarQuarto(PossivelHospede pessoa, List<Quarto> quartos) {
+    public void tentarAlugarQuarto(PossivelHospede pessoa, List<Quarto> quartos, Integer quantidadeDePessoas) {
         if (haQuartosVagos()) {
             System.out.println("Pessoa " + pessoa.getNome() + " conseguiu alugar um quarto.");
             pessoa.resetTentativas(); 
@@ -46,7 +46,7 @@ public class PossivelHospede extends Pessoa {
                 pessoa.reclamarEIrEmbora(); 
             }
         }
-    }
+    }    
 
     private boolean haQuartosVagos() {
         for (Quarto quarto : quartos) {

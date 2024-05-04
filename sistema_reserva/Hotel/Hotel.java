@@ -17,18 +17,29 @@ public class Hotel {
     private List<Camareira> camareiras;
     private List<Quarto> quartos;
     private Lock lock;
-    private Queue<PossivelHospede> filaEspera;
+    private List<PossivelHospede> filaEspera;
     private List<Hospede> hospedes;
 
     public Hotel(int numRecepcionistas, int numCamareiras, int numQuartos) {
         recepcionistas = new ArrayList<>();
         camareiras = new ArrayList<>();
-        quartos = new ArrayList<>();
+        quartos = new ArrayList<>(); 
         hospedes = new ArrayList<>();
         lock = new ReentrantLock();
         filaEspera = new LinkedList<>();
         addRecepcionista(numRecepcionistas);
         addCamareiras(numCamareiras);
+        addQuartos(numQuartos);
+    }
+    
+    void addQuartos(int numQuartos) {
+        for (int i = 0; i < numQuartos; i++) {
+            quartos.add(new Quarto(i + 1, null, true)); 
+        }
+    }
+
+    public List<PossivelHospede> getListaEspera(){
+        return filaEspera;
     }
 
     void addRecepcionista(int numRecepcionistas){
@@ -93,44 +104,19 @@ public class Hotel {
         }
     }
 
-    public void tentarAlugarQuarto(PossivelHospede pessoa, List<Quarto> quartos, Integer quantidadeDePessoas) {
-        if (haQuartosVagos()) {
-            System.out.println("Pessoa " + pessoa.getNome() + " conseguiu alugar um quarto.");
-            pessoa.resetTentativas(); 
-
-        } else {
-            if (pessoa.getTentativas() < 2) {
-                adicionarFilaEspera(pessoa);
-                System.out.println("Não há quartos vagos. Pessoa " + pessoa.getNome() + " adicionada à fila de espera.");
-                pessoa.incrementarTentativas(); 
-            } else {
-                pessoa.reclamarEIrEmbora(); 
-            }
-        }
-    }
-
-    public boolean adicionarFilaEspera(PossivelHospede pessoa) {
-        lock.lock();
-        try {
-            if (haQuartosVagos()) {
-                return true;
-            } else {
-                filaEspera.add(pessoa);
-                return false;
-            }
-        } finally {
-            lock.unlock();
-        }
+    public void adicionarFilaEspera(PossivelHospede pessoa) {
+        filaEspera.add(pessoa);
     }
 
     public void atenderFilaEspera() {
         lock.lock();
         try {
-            while (!filaEspera.isEmpty()) {
-                PossivelHospede pessoa = filaEspera.poll();
+            List<PossivelHospede> pessoas = getListaEspera();
+            for (PossivelHospede pessoa : pessoas) {
                 Quarto quarto = getQuartoDisponivel();
                 if (quarto != null) {
                     System.out.println("Pessoa " + pessoa.getNome() + " conseguiu alugar um quarto.");
+                    removerDaFilaEspera(pessoa);
                 } else {
                     pessoa.reclamarEIrEmbora();
                 }
@@ -141,14 +127,10 @@ public class Hotel {
         }
     }
 
-    private boolean haQuartosVagos() {
-        for (Quarto quarto : quartos) {
-            if (quarto.isDisponivel()) {
-                return true;
-            }
-        }
-        return false;
-    }
+    public void removerDaFilaEspera(PossivelHospede pessoa) {
+        filaEspera.remove(pessoa);
+    }    
+    
 
     public Recepcionista getRecepcionistaDisponivel() {
         lock.lock();
@@ -164,14 +146,6 @@ public class Hotel {
         }
     }
 
-    public PossivelHospede getProximoHospedeNaFila() {
-        lock.lock();
-        try {
-            return filaEspera.poll();
-        } finally {
-            lock.unlock();
-        }
-    }
 
     public Quarto getQuartoPorHospede(Hospede hospede) {
         lock.lock();
