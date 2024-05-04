@@ -30,6 +30,7 @@ public class Hotel {
         addRecepcionista(numRecepcionistas);
         addCamareiras(numCamareiras);
     }
+
     void addRecepcionista(int numRecepcionistas){
 
         String[] names = {"Ana", "Carlos", "Maria", "Joana", "Tais"};
@@ -38,16 +39,16 @@ public class Hotel {
         Integer[] salario = {2000, 1100, 1250, 2100, 1700};
 
         for (int i = 0; i < numRecepcionistas; i++){
-            this.recepcionistas.add(new Recepcionista(names[i], idades[i], cpf[i], salario[i]));    
+            Hotel.recepcionistas.add(new Recepcionista(names[i], idades[i], cpf[i], salario[i]));    
         }
     }
 
     void addCamareiras(int numCamareiras){
 
-        String[] names = {"Dona Maria", "Alceu"};
-        Integer[] idades = {41, 59};
-        String[] cpf = {"121-121-121-12", "232-232-232-23"};
-        Integer[] salario = {2100, 2000};
+        String[] names = {"Dona Maria", "Alceu", "Ana", "Alcileia", "Joana", "Gabriela", "Zendaia", "Duda", "roberto" ,"Marcos"};
+        Integer[] idades = {41, 59, 31, 40, 32, 19, 23, 24, 29, 50};
+        String[] cpf = {"121-121-121-12", "232-232-232-23", "343-343-343-34", "555-555-555-55", "666-666-666-66", "777-777-777-77", "888-888-888-88", "999-999-999-99", "101-101-101-11", "222-222-222-22"};
+        Integer[] salario = {2100, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 1200};
 
         for (int i = 0; i < numCamareiras; i++){
             this.camareiras.add(new Camareira(names[i], idades[i], cpf[i], salario[i]));    
@@ -55,7 +56,7 @@ public class Hotel {
     }
 
     public List<Recepcionista> getRecepcionistas() {
-        return this.recepcionistas;
+        return Hotel.recepcionistas;
     }
 
     public List<Camareira> getCamareiras() {
@@ -90,6 +91,21 @@ public class Hotel {
             quarto.setDisponivel(true);
         } finally {
             lock.unlock();
+        }
+    }
+
+    public void tentarAlugarQuarto(PossivelHospede pessoa, List<Quarto> quartos, Integer quantidadeDePessoas) {
+        if (haQuartosVagos()) {
+            System.out.println("Pessoa " + pessoa.getNome() + " conseguiu alugar um quarto.");
+            pessoa.resetTentativas(); 
+        } else {
+            if (pessoa.getTentativas() < 2) {
+                adicionarFilaEspera(pessoa);
+                System.out.println("Não há quartos vagos. Pessoa " + pessoa.getNome() + " adicionada à fila de espera.");
+                pessoa.incrementarTentativas(); 
+            } else {
+                pessoa.reclamarEIrEmbora(); 
+            }
         }
     }
 
@@ -161,7 +177,7 @@ public class Hotel {
         lock.lock();
         try {
             for (Quarto quarto : quartos) {
-                if (quarto.getHospedes() != null && quarto.getHospedes().equals(hospede)) {
+                if (quarto.getHospedes() != null && quarto.getHospedes().equals(this.hospede)) {
                     return quarto;
                 }
             }

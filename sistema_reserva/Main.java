@@ -11,6 +11,7 @@ import sistema_reserva.pessoas.funcionarios.Recepcionista;
 
 public class Main {
     public static void main(String[] args) {
+
         Hotel hotel = new Hotel(5, 10, 10);
         List<Thread> camareiraThreads = new ArrayList<>();
         List<Thread> recepcionistaThreads = new ArrayList<>();
@@ -26,21 +27,17 @@ public class Main {
             recepcionistaThreads.add(recepcionistaThread);
         }
 
-        for (int i = 0; i < 10; i++) {
-          
-        }
+        // for (Thread camareiraThread : camareiraThreads) {
+        //     camareiraThread.start();
+        // }
 
-        for (Thread camareiraThread : camareiraThreads) {
-            camareiraThread.start();
-        }
+        // for (Thread recepcionistaThread : recepcionistaThreads) {
+        //     recepcionistaThread.start();
+        // }
 
-        for (Thread recepcionistaThread : recepcionistaThreads) {
-            recepcionistaThread.start();
-        }
-
-        for (Thread hospedeThread : hospedeThreads) {
-            hospedeThread.start();
-        }
+        // for (Thread hospedeThread : hospedeThreads) {
+        //     hospedeThread.start();
+        // }
     }
 }
 
