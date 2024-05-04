@@ -32,7 +32,7 @@ public class PossivelHospede extends Pessoa {
     }
 
     public void tentarAlugarQuarto(PossivelHospede pessoa, List<Quarto> quartos) {
-        if (haQuartosVagos()) {
+        if (this.haQuartosVagos()) {
             System.out.println("Pessoa " + pessoa.getNome() + " conseguiu alugar um quarto.");
             pessoa.resetTentativas(); 
         } else {

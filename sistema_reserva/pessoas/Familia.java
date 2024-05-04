@@ -3,10 +3,43 @@ package sistema_reserva.pessoas;
 import java.util.ArrayList;
 import java.util.List;
 
+import sistema_reserva.Hotel.Quarto;
+
 public class Familia {
-    private List<Hospede> hospedes = new ArrayList<Hospede>();
-    private List<PossivelHospede> possiveisHospedes = new ArrayList<PossivelHospede>();
+    private List<Pessoa> integrantes;
     private boolean chaveNaRecepcao;
+    private int tentativas;
+    private String name;
+    Quarto quarto;
+
+    public Familia(List<Pessoa> pessoas, String name){
+        this.integrantes = pessoas;
+        this.name = name;
+    }
+
+    public void setQuarto(Quarto quarto){
+        this.quarto = quarto;
+    }
+
+    public String getNome(){
+        return this.name;
+    }
+
+    public void reclamarEIrEmbora() {
+        System.out.println("Pessoa " + getNome() + " deixou uma reclamação e foi embora.");
+    }
+
+    public int getTentativas() {
+        return tentativas;
+    }
+
+    public void incrementarTentativas() {
+        tentativas++;
+    }
+
+    public void resetTentativas() {
+        tentativas = 0;
+    }
 
     public boolean getChaveNaRecepcao() {
         return chaveNaRecepcao;
@@ -15,20 +48,13 @@ public class Familia {
     public void setChaveNaRecepcao(boolean chaveNaRecepcao) {
         this.chaveNaRecepcao = chaveNaRecepcao;
     }
-    public List<Hospede> getHospedes() {
-        return hospedes;
+    
+    public List<Hospede> getIntegrantes() {
+        return integrantes;
     }
 
-    public List<PossivelHospede> getPossiveisHospedes() {
-        return possiveisHospedes;
-    }
-
-    public void addHospede(Hospede hospede) {
-        hospedes.add(hospede);
-    }
-
-    public void addPossivelHospede(PossivelHospede possivelHospede) {
-        possiveisHospedes.add(possivelHospede);
+    public void addIntegrante(Pessoa pessoa) {
+        integrantes.add(pessoa);
     }
 
 }

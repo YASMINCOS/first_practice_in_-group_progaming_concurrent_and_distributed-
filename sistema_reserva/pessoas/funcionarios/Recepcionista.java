@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import sistema_reserva.Hotel.Hotel;
 import sistema_reserva.Hotel.Quarto;
+import sistema_reserva.pessoas.Familia;
 import sistema_reserva.pessoas.Hospede;
 import sistema_reserva.pessoas.Pessoa;
 import sistema_reserva.pessoas.PossivelHospede;
@@ -17,13 +18,15 @@ public class Recepcionista extends Pessoa implements Runnable {
     private boolean ocupada;
     private Lock lock;
     private Random random;
+    Hotel hotel;
 
-    public Recepcionista(String nome, int idade, String cpf, int salario) {
+    public Recepcionista(String nome, int idade, String cpf, int salario, Hotel hotel) {
         super(nome, idade, cpf);
         this.salario = salario;
         this.ocupada = false;
         this.lock = new ReentrantLock();
         this.random = new Random();
+        this.hotel = hotel;
     }
     
     public int getSalario() {
@@ -42,11 +45,11 @@ public class Recepcionista extends Pessoa implements Runnable {
         this.salario = salario;
     }
 
-    public void receberChave(Quarto quarto, Hospede hospede) {
+    public void receberChave(Quarto quarto, Familia familia) {
         lock.lock();
         try {
             quarto.setChaveNaRecepcao(true);
-            System.out.println("Recepcionista " + getNome() + " recebeu a chave do quarto " + quarto.getNumero() + " do hóspede " + hospede.getNome() + ".");
+            System.out.println("Recepcionista " + getNome() + " recebeu a chave do quarto " + quarto.getNumero() + " do hóspede " + familia.getNome() + ".");
         } finally {
             lock.unlock();
         }
@@ -55,6 +58,7 @@ public class Recepcionista extends Pessoa implements Runnable {
     public Quarto alocarQuartoParaHospede(List<Hospede> hospedes) {
         Hotel hotel = new Hotel(5, 6, 5);
         Quarto quarto = hotel.getQuartoDisponivel();
+        
         if (quarto != null) {
             for (Hospede hospede : hospedes) {
                 quarto.adicionarHospede(hospede);

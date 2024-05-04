@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import sistema_reserva.pessoas.Familia;
 import sistema_reserva.pessoas.Hospede;
 
 public class Quarto {
@@ -12,8 +13,10 @@ public class Quarto {
     private String tipo;
     private boolean disponivel;
     private boolean chaveNaRecepcao;
+    private boolean disponivelParaLimpeza;
     private List<Hospede> hospedes;
     private Lock lock;
+    private Familia familia;
 
     private static final int CAPACIDADE_MAXIMA = 4;
 
@@ -38,6 +41,10 @@ public class Quarto {
       this.hospedes = hospede;
     }
 
+    public void setFamilia(Familia familia){
+        this.familia = familia;
+    }
+
     public boolean isDisponivel() {
         return disponivel;
     }
@@ -58,18 +65,18 @@ public class Quarto {
         return hospedes;
     }
 
-    public void adicionarHospede(Hospede hospede) {
+    public void adicionarHospede(Familia familia) {
         lock.lock();
         try {
             if (!disponivel) {
                 System.out.println("Não é possível adicionar um novo hóspede ao quarto " + numero
                         + " pois está passando por limpeza.");
-            } else if (hospedes.size() >= CAPACIDADE_MAXIMA) {
-                System.out.println(
-                        "O quarto está cheio, não é possível adicionar mais hóspedes. Limite de 4 hóspedes por quarto");
-            } else {
+            }else {
                 System.out.println("Hospede adicionado no quarto");
-                hospedes.add(hospede);
+
+                //Adiciona uma familia nesse quarto
+                setFamilia(familia);
+                this.disponivel = false;
             }
         } finally {
             lock.unlock();

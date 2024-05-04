@@ -7,18 +7,23 @@ import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import sistema_reserva.pessoas.Familia;
 import sistema_reserva.pessoas.Hospede;
 import sistema_reserva.pessoas.PossivelHospede;
 import sistema_reserva.pessoas.funcionarios.Camareira;
 import sistema_reserva.pessoas.funcionarios.Recepcionista;
 
 public class Hotel {
-    private static List<Recepcionista> recepcionistas;
+    List<Recepcionista> recepcionistas;
     private List<Camareira> camareiras;
     private List<Quarto> quartos;
     private static Lock lock;
     private Queue<PossivelHospede> filaEspera;
     private List<Hospede> hospedes;
+    String name = "Hotel Arizona";
+
+    //A priori, vamos usar familias como sendo array de hospedes para que o conjunto de pessoas da familia sejam uma coisa só
+    private List<Familia> hospedesFamilia;
 
     public Hotel(int numRecepcionistas, int numCamareiras, int numQuartos) {
         recepcionistas = new ArrayList<>();
@@ -39,8 +44,10 @@ public class Hotel {
         Integer[] salario = {2000, 1100, 1250, 2100, 1700};
 
         for (int i = 0; i < numRecepcionistas; i++){
-            Hotel.recepcionistas.add(new Recepcionista(names[i], idades[i], cpf[i], salario[i]));    
+            this.recepcionistas.add(new Recepcionista(names[i], idades[i], cpf[i], salario[i], this));
         }
+
+    
     }
 
     void addCamareiras(int numCamareiras){
@@ -56,7 +63,7 @@ public class Hotel {
     }
 
     public List<Recepcionista> getRecepcionistas() {
-        return Hotel.recepcionistas;
+        return this.recepcionistas;
     }
 
     public List<Camareira> getCamareiras() {
@@ -94,24 +101,48 @@ public class Hotel {
         }
     }
 
-    public void tentarAlugarQuarto(PossivelHospede pessoa, List<Quarto> quartos, Integer quantidadeDePessoas) {
+    public void tentarAlugarQuarto(Familia possivelFamilia, List<Quarto> quartos, Integer quantidadeDePessoas) {
+        
         if (haQuartosVagos()) {
             System.out.println("Pessoa " + pessoa.getNome() + " conseguiu alugar um quarto.");
-            pessoa.resetTentativas(); 
+
+            possivelFamilia.resetTentativas(); 
+
+            //Aloca um quarto disponível
+            Quarto quarto = getQuartoDisponivel();
 
             //Lógica para alugar um quarto para uma família
+            quarto.adicionarHospede(possivelFamilia);
+           
         } else {
-            if (pessoa.getTentativas() < 2) {
-                adicionarFilaEspera(pessoa);
+            if (possivelFamilia.getTentativas() < 2) {
+                adicionarFilaEspera(possivelFamilia);
                 System.out.println("Não há quartos vagos. Pessoa " + pessoa.getNome() + " adicionada à fila de espera.");
-                pessoa.incrementarTentativas(); 
+                possivelFamilia.incrementarTentativas(); 
             } else {
-                pessoa.reclamarEIrEmbora(); 
+                possivelFamilia.reclamarEIrEmbora(); 
             }
         }
     }
 
-    public boolean adicionarFilaEspera(PossivelHospede pessoa) {
+    //Por enquanto vamos tentar fazer funcionar apenas com menos de quatro pessoas
+    public Familia verificarPesssoasPorQuarto(Familia familia,Integer quantidadePessoas, Integer quartoNumero){
+
+        if (quantidadePessoas <= 4){
+            //Pega cada possível hospede e adiciona em um array de familia
+            for(int i = 0; i < quantidadePessoas; i++){
+                PossivelHospede possivelHospede = familia.getPossiveisHospedes();
+                Hospede hospede = new Hospede(possivelHospede.getNome(), possivelHospede.getIdade(), possivelHospede.getCpf(), quartoNumero);
+                familia.addHospede(possiveisHospedes.get(i));
+            }
+            
+            return familia;
+        }else{
+
+        }
+    }   
+
+    public boolean adicionarFilaEspera(Familia familia) {
         lock.lock();
         try {
             if (haQuartosVagos()) {
@@ -152,7 +183,7 @@ public class Hotel {
         return false;
     }
 
-    public static Recepcionista getRecepcionistaDisponivel() {
+    public Recepcionista getRecepcionistaDisponivel() {
         lock.lock();
         try {
             for (Recepcionista recepcionista : recepcionistas) {
