@@ -98,6 +98,8 @@ public class Hotel {
         if (haQuartosVagos()) {
             System.out.println("Pessoa " + pessoa.getNome() + " conseguiu alugar um quarto.");
             pessoa.resetTentativas(); 
+
+            //Lógica para alugar um quarto para uma família
         } else {
             if (pessoa.getTentativas() < 2) {
                 adicionarFilaEspera(pessoa);
