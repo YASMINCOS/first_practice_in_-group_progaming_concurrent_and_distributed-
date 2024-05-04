@@ -17,14 +17,17 @@ public class Recepcionista extends Pessoa implements Runnable {
     private boolean ocupada;
     private Lock lock;
     private Random random;
+    private Hotel hotel;
 
-    public Recepcionista(String nome, int idade, String cpf, int salario) {
+    public Recepcionista(String nome, int idade, String cpf, int salario, Hotel hotel) {
         super(nome, idade, cpf);
         this.salario = salario;
         this.ocupada = false;
         this.lock = new ReentrantLock();
         this.random = new Random();
+        this.hotel = hotel; 
     }
+
     
     public int getSalario() {
         return salario;
@@ -53,7 +56,6 @@ public class Recepcionista extends Pessoa implements Runnable {
     }
 
     public Quarto alocarQuartoParaHospede(List<Hospede> hospedes) {
-        Hotel hotel = new Hotel(5, 6, 5);
         Quarto quarto = hotel.getQuartoDisponivel();
         if (quarto != null) {
             for (Hospede hospede : hospedes) {
@@ -67,7 +69,6 @@ public class Recepcionista extends Pessoa implements Runnable {
     }    
     
     public Quarto entregarChaveParaHospede(Hospede hospede) {
-        Hotel hotel = new Hotel(5, 3, 6);
         Quarto quarto = hotel.getQuartoPorHospede(hospede);
         if (quarto != null && quarto.isChaveNaRecepcao()) {
             quarto.setChaveNaRecepcao(false);
@@ -81,7 +82,6 @@ public class Recepcionista extends Pessoa implements Runnable {
     @Override
     public void run() {
         try {
-            Hotel hotel = new Hotel(10, 5, 5);
             while (true) {
                 Thread.sleep(2000); 
                 

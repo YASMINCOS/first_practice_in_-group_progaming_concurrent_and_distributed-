@@ -6,6 +6,7 @@ import java.util.List;
 import sistema_reserva.Hotel.Hotel;
 import sistema_reserva.Hotel.Quarto;
 import sistema_reserva.pessoas.Hospede;
+import sistema_reserva.pessoas.PossivelHospede;
 import sistema_reserva.pessoas.funcionarios.Camareira;
 import sistema_reserva.pessoas.funcionarios.Recepcionista;
 
@@ -16,6 +17,12 @@ public class Main {
         List<Thread> camareiraThreads = new ArrayList<>();
         List<Thread> recepcionistaThreads = new ArrayList<>();
         List<Thread> hospedeThreads = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            PossivelHospede possivelHospede = new PossivelHospede("Possível Hóspede " + (i + 1), 30, "000.000.000-00");
+            possivelHospede.adicionarFilaEspera(possivelHospede);
+            hotel.adicionarFilaEspera(possivelHospede);
+        }
 
         for (Camareira camareira : hotel.getCamareiras()) {
             Thread camareiraThread = new Thread(camareira);
@@ -29,12 +36,12 @@ public class Main {
             recepcionistaThreads.add(recepcionistaThread);
         }
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             Hospede hospede = new Hospede("Hóspede " + (i + 1), 30, "000.000.000-00", 0); 
             Thread hospedeThread = new Thread(hospede);
             hospedeThread.start();
             hospedeThreads.add(hospedeThread);
-        }
+        }        
 
     }
 }

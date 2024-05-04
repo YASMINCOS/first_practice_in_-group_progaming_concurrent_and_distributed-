@@ -13,6 +13,7 @@ public class Hospede extends Pessoa implements Runnable {
         this.numeroQuarto = numeroQuarto;
         this.estaNoQuarto = true;
     }
+
     public int getNumeroQuarto() {
         return numeroQuarto;
     }
@@ -37,7 +38,7 @@ public class Hospede extends Pessoa implements Runnable {
             System.out.println("O hóspede já deixou a chave na recepção.");
         }
     }
-    
+
     public void retirarChaveDaRecepcao(Quarto quarto, Recepcionista recepcionista) {
         if (!estaNoQuarto) {
             estaNoQuarto = true;
@@ -48,7 +49,29 @@ public class Hospede extends Pessoa implements Runnable {
 
     @Override
     public void run() {
-     
-    }
+        try {
+            Hotel hotel = new Hotel(5, 10, 10);
+            while (true) {
+                Thread.sleep((long) (Math.random() * 5000));
 
+                Quarto quarto = hotel.getQuartoPorHospede(this);
+                Recepcionista recepcionista = hotel.getRecepcionistaDisponivel();
+                if (quarto != null && recepcionista != null) {
+                    if (quarto.getHospedes().size() < 4) {
+                        deixarChaveNaRecepcao(quarto, recepcionista);
+                    } else {
+                        System.out.println("O quarto está cheio. O hóspede " + getNome() + " não pôde deixar a chave na recepção.");
+                    }
+                }
+
+                Thread.sleep((long) (Math.random() * 5000));
+
+                if (quarto != null && recepcionista != null) {
+                    retirarChaveDaRecepcao(quarto, recepcionista);
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

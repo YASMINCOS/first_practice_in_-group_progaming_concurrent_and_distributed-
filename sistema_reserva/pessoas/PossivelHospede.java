@@ -1,5 +1,6 @@
 package sistema_reserva.pessoas;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sistema_reserva.Hotel.Quarto;
@@ -13,6 +14,7 @@ public class PossivelHospede extends Pessoa {
     public PossivelHospede(String nome, int idade, String cpf) {
         super(nome, idade, cpf);
         this.tentativas = 0; 
+        this.filaEspera = new ArrayList<>();
     }
 
     public int getTentativas() {

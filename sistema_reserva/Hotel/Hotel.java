@@ -13,10 +13,10 @@ import sistema_reserva.pessoas.funcionarios.Camareira;
 import sistema_reserva.pessoas.funcionarios.Recepcionista;
 
 public class Hotel {
-    private static List<Recepcionista> recepcionistas;
+    private List<Recepcionista> recepcionistas;
     private List<Camareira> camareiras;
     private List<Quarto> quartos;
-    private static Lock lock;
+    private Lock lock;
     private Queue<PossivelHospede> filaEspera;
     private List<Hospede> hospedes;
 
@@ -38,7 +38,7 @@ public class Hotel {
         Integer[] salario = {2000, 1100, 1250, 2100, 1700};
     
         for (int i = 0; i < numRecepcionistas && i < names.length; i++){
-            Hotel.recepcionistas.add(new Recepcionista(names[i], idades[i], cpf[i], salario[i]));    
+            this.recepcionistas.add(new Recepcionista(names[i], idades[i], cpf[i], salario[i], this));    
         }
     }    
 
@@ -55,8 +55,8 @@ public class Hotel {
     }
 
     public List<Recepcionista> getRecepcionistas() {
-        return Hotel.recepcionistas;
-    }
+        return this.recepcionistas;
+    }    
 
     public List<Camareira> getCamareiras() {
         return this.camareiras;
@@ -150,7 +150,7 @@ public class Hotel {
         return false;
     }
 
-    public static Recepcionista getRecepcionistaDisponivel() {
+    public Recepcionista getRecepcionistaDisponivel() {
         lock.lock();
         try {
             for (Recepcionista recepcionista : recepcionistas) {
