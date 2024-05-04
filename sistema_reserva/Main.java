@@ -38,6 +38,7 @@ public class Main {
         // for (Thread hospedeThread : hospedeThreads) {
         //     hospedeThread.start();
         // }
+
     }
 }
 
