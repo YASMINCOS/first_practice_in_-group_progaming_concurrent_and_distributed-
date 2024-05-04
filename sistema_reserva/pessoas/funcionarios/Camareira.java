@@ -2,6 +2,7 @@ package sistema_reserva.pessoas.funcionarios;
 
 import java.util.List;
 
+import sistema_reserva.Hotel.Hotel;
 import sistema_reserva.Hotel.Quarto;
 import sistema_reserva.pessoas.Pessoa;
 
@@ -56,8 +57,20 @@ public class Camareira extends Pessoa implements Runnable{
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
+        try {
+            while (true) {
+                Quarto quarto = null;
+    
+                if (quarto != null) {
+                    quartoDisponivelParaLimpeza(quarto);
+                } else {
+                    Thread.sleep(500);
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
+    
 }
 
