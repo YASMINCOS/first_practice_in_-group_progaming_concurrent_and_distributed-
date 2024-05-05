@@ -20,7 +20,6 @@ public class Hotel {
     private static Lock lock;
     private Queue<PossivelHospede> filaEspera;
     private List<Hospede> hospedes;
-    String name = "Hotel Arizona";
 
     //A priori, vamos usar familias como sendo array de hospedes para que o conjunto de pessoas da familia sejam uma coisa só
     private List<Familia> hospedesFamilia;
@@ -46,8 +45,7 @@ public class Hotel {
         for (int i = 0; i < numRecepcionistas; i++){
             this.recepcionistas.add(new Recepcionista(names[i], idades[i], cpf[i], salario[i], this));
         }
-
-    
+        
     }
 
     void addCamareiras(int numCamareiras){
@@ -104,7 +102,7 @@ public class Hotel {
     public void tentarAlugarQuarto(Familia possivelFamilia, List<Quarto> quartos, Integer quantidadeDePessoas) {
         
         if (haQuartosVagos()) {
-            System.out.println("Pessoa " + pessoa.getNome() + " conseguiu alugar um quarto.");
+            System.out.println("Pessoa " + possivelFamilia.getNome() + " conseguiu alugar um quarto.");
 
             possivelFamilia.resetTentativas(); 
 
@@ -117,7 +115,7 @@ public class Hotel {
         } else {
             if (possivelFamilia.getTentativas() < 2) {
                 adicionarFilaEspera(possivelFamilia);
-                System.out.println("Não há quartos vagos. Pessoa " + pessoa.getNome() + " adicionada à fila de espera.");
+                System.out.println("Não há quartos vagos. Pessoa " + possivelFamilia.getNome() + " adicionada à fila de espera.");
                 possivelFamilia.incrementarTentativas(); 
             } else {
                 possivelFamilia.reclamarEIrEmbora(); 

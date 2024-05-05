@@ -13,6 +13,7 @@ public class Hospede extends Pessoa implements Runnable {
         this.numeroQuarto = numeroQuarto;
         this.estaNoQuarto = true;
     }
+    
     public int getNumeroQuarto() {
         return numeroQuarto;
     }

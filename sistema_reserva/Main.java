@@ -14,6 +14,8 @@ public class Main {
 
         Hotel hotel = new Hotel(2, 3, 10);
         
+
+        
     }
 }
 

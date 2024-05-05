@@ -55,8 +55,9 @@ public class Recepcionista extends Pessoa implements Runnable {
         }
     }
 
+
+    //Mudar para alocar um quarto para uma familia
     public Quarto alocarQuartoParaHospede(List<Hospede> hospedes) {
-        Hotel hotel = new Hotel(5, 6, 5);
         Quarto quarto = hotel.getQuartoDisponivel();
         
         if (quarto != null) {
@@ -85,7 +86,6 @@ public class Recepcionista extends Pessoa implements Runnable {
     @Override
     public void run() {
         try {
-            Hotel hotel = new Hotel(10, 5, 5);
             while (true) {
                 Thread.sleep(2000); 
                 
