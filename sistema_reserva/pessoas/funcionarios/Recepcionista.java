@@ -82,7 +82,6 @@ public class Recepcionista extends Pessoa implements Runnable {
     @Override
     public void run() {
         try {
-            Hotel hotel = new Hotel(10, 5, 5);
             while (true) {
                 Thread.sleep(2000); 
                 

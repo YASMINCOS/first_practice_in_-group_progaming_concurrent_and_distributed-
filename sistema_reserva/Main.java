@@ -20,10 +20,9 @@ public class Main {
 
         for (int i = 0; i < 10; i++) {
             PossivelHospede possivelHospede = new PossivelHospede("Possível Hóspede " + (i + 1), 30, "000.000.000-00");
-            possivelHospede.adicionarFilaEspera(possivelHospede);
-            hotel.adicionarFilaEspera(possivelHospede);
+            hotel.adicionarFilaEspera(possivelHospede); 
         }
-
+        
         for (Camareira camareira : hotel.getCamareiras()) {
             Thread camareiraThread = new Thread(camareira);
             camareiraThread.start();
