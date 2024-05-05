@@ -131,7 +131,6 @@ public class Hotel {
         filaEspera.remove(pessoa);
     }    
     
-
     public Recepcionista getRecepcionistaDisponivel() {
         lock.lock();
         try {
@@ -146,7 +145,6 @@ public class Hotel {
         }
     }
 
-
     public Quarto getQuartoPorHospede(Hospede hospede) {
         lock.lock();
         try {
@@ -159,6 +157,5 @@ public class Hotel {
         } finally {
             lock.unlock();
         }
-    }
-    
+    }   
 }

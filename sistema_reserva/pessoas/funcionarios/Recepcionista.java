@@ -82,13 +82,13 @@ public class Recepcionista extends Pessoa implements Runnable {
     @Override
     public void run() {
         try {
-            while (true) {
+            while (!Thread.currentThread().isInterrupted()) {
                 Thread.sleep(2000); 
-                
-                List<PossivelHospede> possivelHospede = hotel.getListaEspera(); 
-                if (possivelHospede != null) {
+    
+                List<PossivelHospede> possiveisHospedes = hotel.getListaEspera(); 
+                if (!possiveisHospedes.isEmpty()) {
                     List<Hospede> hospedesTransformados = new ArrayList<>();
-                    for (PossivelHospede ph : possivelHospede) {
+                    for (PossivelHospede ph : possiveisHospedes) {
                         int numeroQuarto = random.nextInt(10) + 1; 
                         Hospede hospede = new Hospede(ph.getNome(), ph.getIdade(), ph.getCpf(),numeroQuarto);
                         hospedesTransformados.add(hospede);
@@ -103,11 +103,13 @@ public class Recepcionista extends Pessoa implements Runnable {
                     }
                 } else {
                     System.out.println("Recepcionista " + getNome() + " aguardando a chegada de hóspedes...");
+                    Thread.sleep(5000); 
                 }
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Recepcionista " + getNome() + " foi interrompida e encerrou sua execução.");
         }
     }
+    
     
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sistema_reserva.Hotel.Hotel;
-import sistema_reserva.Hotel.Quarto;
 import sistema_reserva.pessoas.Hospede;
 import sistema_reserva.pessoas.PossivelHospede;
 import sistema_reserva.pessoas.funcionarios.Camareira;
